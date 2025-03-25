@@ -1,0 +1,38 @@
+name: Build,Test
+
+on: push
+
+jobs:
+
+  commitlint:
+
+    name: Check Commit Messages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install commitlint
+        run: npm install @commitlint/{config-conventional,cli}
+
+      - name: Lint last commit message
+        run: git log -1 --pretty=%B | npx commitlint
+
+  build-and-test:
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Build
+        run: mvn clean package
+
+      - name: Test
+        run: mvn verify
