@@ -1,0 +1,6 @@
+spring:
+  application.name: Crypto
+
+coinGecko.url: https://api.coingecko.com
+server:
+  port: 8081
