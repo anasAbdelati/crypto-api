@@ -1,28 +1,32 @@
 package org.projetperso.crypto.mapper;
 
-import org.projetperso.crypto.dto.Coin;
+import org.projetperso.crypto.dto.CoinDTO;
 import org.projetperso.crypto.dto.CoinGeckoRawDTO;
 
 public class CoinMapper {
+
+    public static final String CURRENCY = "usd";
 
     public CoinMapper() {
         throw new IllegalStateException("Utility class");
     }
 
-    public static Coin fromRaw(CoinGeckoRawDTO raw) {
+    public static CoinDTO fromRaw(CoinGeckoRawDTO raw) {
         if (raw == null || raw.getMarketData() == null) return null;
 
-        return new Coin(
-                raw.getId(),
-                raw.getSymbol(),
-                raw.getName(),
-                raw.getMarketData().getCurrentPrice().get("usd"),
-                raw.getMarketData().getMarketCap().get("usd"),
-                raw.getMarketData().getPriceChangePercentage24h(),
-                raw.getMarketData().getHigh24h().get("usd"),
-                raw.getMarketData().getLow24h().get("usd"),
-                raw.getMarketData().getTotalVolume().get("usd"),
-                raw.getMarketCapRank()
-        );
+        return CoinDTO.builder()
+                .id(raw.getId())
+                .symbol(raw.getSymbol())
+                .name(raw.getName())
+                .description(raw.getDescription() != null ? raw.getDescription().get("en") : null)
+                .currentPrice(raw.getMarketData().getCurrentPrice().get(CURRENCY))
+                .marketCap(raw.getMarketData().getMarketCap().get(CURRENCY))
+                .priceChangePercentage24h(raw.getMarketData().getPriceChangePercentage24h())
+                .high24h(raw.getMarketData().getHigh24h().get(CURRENCY))
+                .low24h(raw.getMarketData().getLow24h().get(CURRENCY))
+                .totalVolume(raw.getMarketData().getTotalVolume().get(CURRENCY))
+                .marketCapRank(raw.getMarketCapRank())
+                .build();
+
     }
 }

@@ -1,8 +1,11 @@
 package org.projetperso.crypto.controller;
 
-import org.projetperso.crypto.dto.Coin;
+import org.projetperso.crypto.dto.CoinDTO;
+import org.projetperso.crypto.dto.CoinPreview;
 import org.projetperso.crypto.service.CoinService;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/1/coin")
@@ -15,7 +18,12 @@ public class CoinController {
     }
 
     @GetMapping("/{id}")
-    public Coin getCoin(@PathVariable String id) {
-        return coinService.getCoinByID(id) ;
+    public CoinDTO getCoin(@PathVariable String id) {
+        return coinService.getCoinByID(id);
+    }
+
+    @GetMapping("/list")
+    public List<CoinPreview> getCoinlist() {
+        return coinService.getCoinList();
     }
 }

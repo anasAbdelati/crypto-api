@@ -1,10 +1,12 @@
 package org.projetperso.crypto.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
 import lombok.Data;
 import java.math.BigDecimal;
 import java.util.Map;
 
+@Builder
 @Data
 public class CoinGeckoRawDTO {
 
@@ -18,7 +20,11 @@ public class CoinGeckoRawDTO {
     @JsonProperty("market_data")
     private MarketData marketData;
 
+    @JsonProperty("description")
+    private Map<String, String> description;
+
     @Data
+    @Builder
     public static class MarketData {
         @JsonProperty("current_price")
         private Map<String, BigDecimal> currentPrice;
