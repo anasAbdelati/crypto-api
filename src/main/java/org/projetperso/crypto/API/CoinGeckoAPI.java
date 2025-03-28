@@ -3,6 +3,7 @@ package org.projetperso.crypto.API;
 import org.projetperso.crypto.dto.CoinDTO;
 import org.projetperso.crypto.dto.CoinGeckoRawDTO;
 import org.projetperso.crypto.dto.CoinPreview;
+import org.projetperso.crypto.exceptions.CoinGeckoApiException;
 import org.projetperso.crypto.mapper.CoinMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;

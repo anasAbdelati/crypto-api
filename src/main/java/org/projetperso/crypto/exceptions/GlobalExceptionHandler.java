@@ -1,8 +1,5 @@
-package org.projetperso.crypto.controller;
+package org.projetperso.crypto.exceptions;
 
-import org.projetperso.crypto.API.CoinGeckoApiException;
-import org.projetperso.crypto.service.DataAlreadyExists;
-import org.projetperso.crypto.service.DataNotFound;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -16,13 +13,18 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(DataNotFound.class)
-    public ResponseEntity<String> handleAlertNotFound(DataNotFound e) {
+    @ExceptionHandler(DataNotFoundException.class)
+    public ResponseEntity<String> handleAlertNotFound(DataNotFoundException e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(DataAlreadyExists.class)
-    public ResponseEntity<String> handleAlertALreadyExists(DataAlreadyExists e) {
+    @ExceptionHandler(DataAlreadyExistsException.class)
+    public ResponseEntity<String> handleAlertALreadyExists(DataAlreadyExistsException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(UserNotCreatedException.class)
+    public ResponseEntity<String> handleUserNotCreated(UserNotCreatedException e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }

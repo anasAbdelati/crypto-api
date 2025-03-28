@@ -2,6 +2,7 @@ package org.projetperso.crypto.controller;
 
 import org.projetperso.crypto.dto.Alert;
 import org.projetperso.crypto.service.AlertService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +32,8 @@ public class AlertController {
 
     @DeleteMapping("/{alertId}")
     @PreAuthorize("hasRole('user')")
-    public void deleteAlert(@PathVariable Long alertId) {
+    public ResponseEntity<String> deleteAlert(@PathVariable Long alertId) {
         alertService.deleteAlert(alertId);
+        return ResponseEntity.ok("Alert deleted successfully");
     }
 }
