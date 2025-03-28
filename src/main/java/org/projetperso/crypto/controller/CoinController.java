@@ -4,6 +4,7 @@ import org.projetperso.crypto.dto.CoinDTO;
 import org.projetperso.crypto.dto.CoinPreview;
 import org.projetperso.crypto.service.AlertService;
 import org.projetperso.crypto.service.CoinService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,13 +37,15 @@ public class CoinController {
 
     @PostMapping("/subscribe/recurring/{id}")
     @PreAuthorize("hasRole('user')")
-    public void subscribeToCoin(@PathVariable String id,@RequestParam int time) {
+    public ResponseEntity<String> subscribeToCoin(@PathVariable String id, @RequestParam int time) {
          alertService.subscribeCoin(id,time);
+        return ResponseEntity.ok("Subscription created successfully");
     }
 
     @PostMapping("/subscribe/threshold/{id}")
     @PreAuthorize("hasRole('user')")
-    public void subscribeThreshold(@PathVariable String id, @RequestParam BigDecimal targetPrice) {
+    public ResponseEntity<String> subscribeThreshold(@PathVariable String id, @RequestParam BigDecimal targetPrice) {
         alertService.subscribeThreshold(id, targetPrice);
+        return ResponseEntity.ok("Subscription created successfully");
     }
 }

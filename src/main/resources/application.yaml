@@ -53,3 +53,11 @@ coinGecko.url: https://api.coingecko.com
 crypto:
   alerts:
     scheduler-delay: 45000
+
+keycloak:
+  realm: anas
+  auth-server-url: http://localhost:8080
+  admin:
+    username: admin
+    password: admin
+    client-id: admin-cli

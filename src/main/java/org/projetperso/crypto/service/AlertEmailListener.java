@@ -18,7 +18,7 @@ public class AlertEmailListener {
 
         SimpleMailMessage email = new SimpleMailMessage();
         email.setTo(msg.getEmail());
-        email.setSubject("Crypto Alert Triggered 🚨");
+        email.setSubject("Crypto Alert Triggered");
         email.setText(msg.getCoinId()+" Reached "+msg.getTargetPrice()+" $");
         mailSender.send(email);
     }

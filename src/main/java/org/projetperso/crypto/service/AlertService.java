@@ -2,6 +2,8 @@ package org.projetperso.crypto.service;
 
 import org.projetperso.crypto.dto.Alert;
 import org.projetperso.crypto.dto.AlertType;
+import org.projetperso.crypto.exceptions.DataAlreadyExistsException;
+import org.projetperso.crypto.exceptions.DataNotFoundException;
 import org.projetperso.crypto.repo.AlertRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -27,7 +29,7 @@ public class AlertService {
 
         final var alert=alertRepository.findByUserIdAndCoinIdAndType(userId,coinId,AlertType.RECURRING);
         if(!alert.isEmpty()) {
-            throw new DataAlreadyExists("Alert already exists");
+            throw new DataAlreadyExistsException("Alert already exists");
         }
         final var alertCoin= Alert.builder().userId(userId).coinId(coinId).active(true).type(AlertType.RECURRING).intervalSeconds(time).email(email).build();
         alertRepository.save(alertCoin);
@@ -53,7 +55,7 @@ public class AlertService {
         Jwt jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userId = jwt.getSubject();
         return alertRepository.findByIdAndUserId(id, userId)
-                .orElseThrow(() -> new DataNotFound("Alert not found"));
+                .orElseThrow(() -> new DataNotFoundException("Alert not found"));
     }
 
     public void deleteAlert(Long alertId) {
