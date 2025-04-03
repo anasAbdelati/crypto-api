@@ -17,7 +17,7 @@ public class AlertScheduler {
 
     private final AlertRepository alertRepository;
     private final CoinService coinService;
-    private final AlertProducer alertProducer;
+    private final AlertEmailSender alertEmailSender;
 
     @Scheduled(fixedDelayString = "${crypto.alerts.scheduler-delay}")
     public void checkAlerts() {
@@ -27,7 +27,7 @@ public class AlertScheduler {
             BigDecimal price = coinService.getCoinByID(alert.getCoinId()).getCurrentPrice();
 
             if (shouldTrigger(alert, price)) {
-                alertProducer.send(alert);
+                alertEmailSender.send(alert);
                 alert.setLastTriggered(LocalDateTime.now());
                 alertRepository.save(alert);
             }

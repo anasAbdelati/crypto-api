@@ -27,6 +27,5 @@ public class CoinMapper {
                 .totalVolume(raw.getMarketData().getTotalVolume().get(CURRENCY))
                 .marketCapRank(raw.getMarketCapRank())
                 .build();
-
     }
 }

@@ -65,5 +65,4 @@ public class CoinGeckoAPI {
                 .queryParam("page", 1)
                 .build();
     }
-
 }

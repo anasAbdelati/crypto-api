@@ -1,0 +1,49 @@
+{
+  "realm": "anas",
+  "enabled": true,
+
+  "roles": {
+    "realm": [
+      {
+        "name": "user",
+        "composite": true,
+        "composites": {
+          "client": {
+            "crypto-api": ["client-user"]
+          }
+        }
+      },
+      {
+        "name": "admin",
+        "composite": true,
+        "composites": {
+          "client": {
+            "crypto-api": ["client-admin"]
+          }
+        }
+      }
+    ],
+    "client": {
+      "crypto-api": [
+        { "name": "client-user" },
+        { "name": "client-admin" }
+      ]
+    }
+  },
+
+  "clients": [
+    {
+      "clientId": "crypto-api",
+      "enabled": true,
+      "publicClient": true,
+      "protocol": "openid-connect",
+      "redirectUris": ["*"],
+      "webOrigins": ["*"],
+      "directAccessGrantsEnabled": true,
+      "standardFlowEnabled": true,
+      "serviceAccountsEnabled": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "change-this-secret"
+    }
+  ]
+}
