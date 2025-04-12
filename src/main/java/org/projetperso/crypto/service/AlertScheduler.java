@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -21,12 +20,12 @@ public class AlertScheduler {
 
     @Scheduled(fixedDelayString = "${crypto.alerts.scheduler-delay}")
     public void checkAlerts() {
-        List<Alert> alerts = alertRepository.findByActive(true);
+        final var alerts = alertRepository.findByActive(true);
         System.out.println(alerts.size());
-        for (Alert alert : alerts) {
-            BigDecimal price = coinService.getCoinByID(alert.getCoinId()).getCurrentPrice();
-
+        for (final var alert : alerts) {
+            final var price = coinService.getCoinByID(alert.getCoinId()).getCurrentPrice();
             if (shouldTrigger(alert, price)) {
+                alert.setPrice(price);
                 alertEmailSender.send(alert);
                 alert.setLastTriggered(LocalDateTime.now());
                 alertRepository.save(alert);
@@ -45,4 +44,3 @@ public class AlertScheduler {
         return false;
     }
 }
-
