@@ -1,0 +1,8 @@
+keycloak:
+  auth-server-url: http://localhost:10999
+  realm: test-realm
+  admin:
+    username: admin
+    password: admin
+    client-id: admin-cli
+coinGecko.url: http://localhost:10525

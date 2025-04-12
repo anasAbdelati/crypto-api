@@ -23,9 +23,9 @@ public class AlertService {
 
     public void subscribeCoin(String coinId,int time) {
 
-        Jwt jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String userId = jwt.getSubject();
-        String email = jwt.getClaimAsString("email");
+        final var jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        final var userId = jwt.getSubject();
+        final var email = jwt.getClaimAsString("email");
 
         final var alert=alertRepository.findByUserIdAndCoinIdAndType(userId,coinId,AlertType.RECURRING);
         if(!alert.isEmpty()) {
@@ -37,23 +37,23 @@ public class AlertService {
 
     public void subscribeThreshold(String coinId, BigDecimal targetPrice) {
 
-        Jwt jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String userId = jwt.getSubject();
-        String email = jwt.getClaimAsString("email");
+        final var jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        final var userId = jwt.getSubject();
+        final var email = jwt.getClaimAsString("email");
 
         final var alertCoin= Alert.builder().userId(userId).coinId(coinId).active(true).type(AlertType.THRESHOLD).targetPrice(targetPrice).email(email).build();
         alertRepository.save(alertCoin);
     }
 
     public List<Alert> findAllAlerts() {
-        Jwt jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String userId = jwt.getSubject();
+        final var jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        final var userId = jwt.getSubject();
         return alertRepository.findByUserId(userId);
     }
 
     public Alert findAlertById(Long id) {
-        Jwt jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String userId = jwt.getSubject();
+        final var jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        final var userId = jwt.getSubject();
         return alertRepository.findByIdAndUserId(id, userId)
                 .orElseThrow(() -> new DataNotFoundException("Alert not found"));
     }

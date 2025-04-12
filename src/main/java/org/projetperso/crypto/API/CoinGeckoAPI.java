@@ -50,7 +50,6 @@ public class CoinGeckoAPI {
         }
     }
 
-
     private static URI uriCoinByID(final UriBuilder builder, String id){
         builder.path(BASE_URL).path(id);
         return builder.build();

@@ -24,6 +24,7 @@ public class Alert {
     private String userId;
     private String coinId;
     private AlertType type;
+    private BigDecimal price;
     private BigDecimal targetPrice;
     private long intervalSeconds;
     private boolean active;
