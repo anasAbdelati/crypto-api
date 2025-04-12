@@ -1,17 +1,12 @@
 package org.projetperso.crypto.service;
 
-import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
-import org.keycloak.admin.client.resource.RealmResource;
-import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.representations.idm.CredentialRepresentation;
-import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.projetperso.crypto.dto.UserRegistrationRequest;
 import org.projetperso.crypto.exceptions.UserNotCreatedException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import jakarta.ws.rs.core.Response;
 import java.util.Collections;
 import java.util.List;
 
@@ -34,7 +29,7 @@ public class KeycloakAdminService {
     private String clientId;
 
     public void createUser(UserRegistrationRequest request) {
-        Keycloak keycloak = KeycloakBuilder.builder()
+        final var keycloak = KeycloakBuilder.builder()
                 .serverUrl(keycloakServerUrl)
                 .realm("master")
                 .username(adminUsername)
@@ -42,12 +37,12 @@ public class KeycloakAdminService {
                 .clientId(clientId)
                 .build();
 
-        CredentialRepresentation credential = new CredentialRepresentation();
+        final var credential = new CredentialRepresentation();
         credential.setType(CredentialRepresentation.PASSWORD);
         credential.setTemporary(false);
         credential.setValue(request.getPassword());
 
-        UserRepresentation user = new UserRepresentation();
+        final var user = new UserRepresentation();
         user.setUsername(request.getUsername());
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
@@ -56,17 +51,17 @@ public class KeycloakAdminService {
         user.setEnabled(true);
         user.setCredentials(List.of(credential));
 
-        RealmResource realmResource = keycloak.realm(realm);
+        final var realmResource = keycloak.realm(realm);
 
-        Response response = realmResource.users().create(user);
+        final var response = realmResource.users().create(user);
         if (response.getStatus() != 201) {
             throw new UserNotCreatedException("Failed to create user: " + response.getStatusInfo());
         }
 
-        String userId = response.getLocation().getPath().replaceAll(".*/([^/]+)$", "$1");
+        final var userId = response.getLocation().getPath().replaceAll(".*/([^/]+)$", "$1");
 
-        RoleRepresentation userRole = realmResource.roles().get("user").toRepresentation();
-        UserResource userResource = realmResource.users().get(userId);
+        final var userRole = realmResource.roles().get("user").toRepresentation();
+        final var userResource = realmResource.users().get(userId);
         userResource.roles().realmLevel().add(Collections.singletonList(userRole));
     }
 }
